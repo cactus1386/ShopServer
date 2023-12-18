@@ -1,66 +1,78 @@
 # ShopServer
 
-Description of your project goes here. Briefly explain what the project does, its main features, and its purpose.
 
-Table of Contents
-Installation
-Usage
-Configuration
-Contributing
-Installation
-Clone the repository:
+## Table of Contents
 
-bash
-Copy code
-git clone https://github.com/your-username/your-project.git
-cd your-project
-Create a virtual environment (if you haven't done this already):
+- [Installation](#installation)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [Contributing](#contributing)
 
-bash
-Copy code
-python -m venv venv
-Activate the virtual environment:
+## Installation
 
-On Windows:
+1. Clone the repository:
 
-bash
-Copy code
-.\venv\Scripts\activate
-On Unix or MacOS:
+    ```bash
+    git clone https://github.com/your-username/your-project.git
+    cd your-project
+    ```
 
-bash
-Copy code
-source venv/bin/activate
-Install dependencies:
+2. Create a virtual environment (if you haven't done this already):
 
-bash
-Copy code
-pip install -r requirements.txt
-Usage
-Run migrations:
+    ```bash
+    python -m venv venv
+    ```
 
-bash
-Copy code
-python manage.py migrate
-Create a superuser:
+3. Activate the virtual environment:
 
-bash
-Copy code
-python manage.py createsuperuser
-Start the development server:
+    - On Windows:
 
-bash
-Copy code
-python manage.py runserver
-Open your browser and go to http://localhost:8000/
+        ```bash
+        .\venv\Scripts\activate
+        ```
 
-Configuration
+    - On Unix or MacOS:
+
+        ```bash
+        source venv/bin/activate
+        ```
+
+4. Install dependencies:
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+## Usage
+
+1. Run migrations:
+
+    ```bash
+    python manage.py migrate
+    ```
+
+2. Create a superuser:
+
+    ```bash
+    python manage.py createsuperuser
+    ```
+
+3. Start the development server:
+
+    ```bash
+    python manage.py runserver
+    ```
+
+4. Open your browser and go to [http://localhost:8000/](http://localhost:8000/)
+
+## Configuration
+
 Explain any additional configuration steps or environment variables that need to be set for your project.
 
-Contributing
+## Contributing
+
 If you'd like to contribute to this project, please follow these steps:
 
-Fork the repository.
-Create a new branch for your feature or bug fix.
-Make your changes and submit a pull request.
-Remember to replace placeholders such as "Project Name" and "your-username" with the actual details of your project. The README file is a crucial part of your project, providing users and contributors with essential information on how to use, install, and contribute to your Django project.
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and submit a pull request.
