@@ -1,6 +1,5 @@
 # ShopServer
 
-
 ## Table of Contents
 
 - [Installation](#installation)
@@ -17,27 +16,7 @@
     cd your-project
     ```
 
-2. Create a virtual environment (if you haven't done this already):
-
-    ```bash
-    python -m venv venv
-    ```
-
-3. Activate the virtual environment:
-
-    - On Windows:
-
-        ```bash
-        .\venv\Scripts\activate
-        ```
-
-    - On Unix or MacOS:
-
-        ```bash
-        source venv/bin/activate
-        ```
-
-4. Install dependencies:
+2. Install dependencies:
 
     ```bash
     pip install -r requirements.txt
