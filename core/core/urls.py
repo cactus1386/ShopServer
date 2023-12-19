@@ -18,10 +18,21 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from shop.views import ProductListAPIView
+# from account.views import login_view
+from rest_framework_simplejwt import views as jwt_views
+
 
 urlpatterns = [
+    path('', include('account.urls')),
+    path('token/', 
+          jwt_views.TokenObtainPairView.as_view(), 
+          name ='token_obtain_pair'),
+    path('token/refresh/', 
+          jwt_views.TokenRefreshView.as_view(), 
+          name ='token_refresh'),
     path("admin/", admin.site.urls),
     path("summernote/", include("django_summernote.urls")),
-    path("api/products/", ProductListAPIView.as_view(), name="product-list"),
+    path("api/", include('shop.urls')),
+    path('', include('comment.urls'))
 ]
 
