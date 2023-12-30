@@ -22,7 +22,7 @@ def productList(request):
             return Response(serializer.errors)
 
 
-@api_view(['GET', 'PUT'])
+@api_view(['GET', 'PUT', 'DELETE'])
 def productDetail(request, id):
     # product = get_object_or_404(Product, pk=id)
     product = Product.objects.get(pk=id)
@@ -36,6 +36,8 @@ def productDetail(request, id):
         serializer.save()
         return Response(serializer.data)
 
-
+    elif request.method == 'DELETE':
+        product.delete()
+        return Response({'detail':'Item delete successfully'}, status=status.HTTP_204_NO_CONTENT)
 
 
