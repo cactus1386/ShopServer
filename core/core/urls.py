@@ -33,6 +33,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("summernote/", include("django_summernote.urls")),
     path("api/", include('shop.urls')),
-    path('', include('comment.urls'))
+    path('', include('comment.urls')),
+    path('api-auth/', include('rest_framework.urls')),
 ]
 
