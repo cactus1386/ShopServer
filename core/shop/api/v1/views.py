@@ -10,6 +10,9 @@ from django.shortcuts import get_object_or_404
 
 # The class for get and create products
 class ProductList(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    serializer_class = ProductSerializer
+
     # Get function
     def get(self, request):
         products = Product.objects.all()
@@ -25,26 +28,48 @@ class ProductList(APIView):
         else:
             return Response(serializer.errors)
     
+class ProductDetail(APIView):
+    serializer_class = ProductSerializer
 
-
-@api_view(['GET', 'PUT', 'DELETE'])
-@permission_classes([IsAuthenticatedOrReadOnly])
-def productDetail(request, id):
-    # product = get_object_or_404(Product, pk=id)
-    product = Product.objects.get(pk=id)
-    if request.method == "GET":
-        serializer = ProductSerializer(product)
+    def get(self, request, id):
+        product = Product.objects.get(pk=id)
+        serializer = self.serializer_class(product)
         return Response(serializer.data)
     
-    elif request.method == "PUT":
+    def put(self, request, id):
+        product = Product.objects.get(pk=id)
         serializer = ProductSerializer(product, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
-
-    elif request.method == 'DELETE':
+    
+    def delete(self, request, id):
+        product = Product.objects.get(pk=id)
         product.delete()
         return Response({'detail':'Item delete successfully'}, status=status.HTTP_204_NO_CONTENT)
+
+
+
+
+
+# @api_view(['GET', 'PUT', 'DELETE'])
+# @permission_classes([IsAuthenticatedOrReadOnly])
+# def productDetail(request, id):
+#     # product = get_object_or_404(Product, pk=id)
+#     product = Product.objects.get(pk=id)
+#     if request.method == "GET":
+#         serializer = ProductSerializer(product)
+#         return Response(serializer.data)
+    
+#     elif request.method == "PUT":
+#         serializer = ProductSerializer(product, data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         serializer.save()
+#         return Response(serializer.data)
+
+#     elif request.method == 'DELETE':
+#         product.delete()
+#         return Response({'detail':'Item delete successfully'}, status=status.HTTP_204_NO_CONTENT)
 
 
 # @api_view(["GET", "POST"])
