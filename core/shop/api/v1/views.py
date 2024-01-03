@@ -13,7 +13,7 @@ from rest_framework.generics import (
     ListCreateAPIView,
     RetrieveUpdateDestroyAPIView,
 )
-
+from .permissions import IsOwnerOrReadOnly
 
 class ProductList(ListCreateAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
@@ -22,7 +22,7 @@ class ProductList(ListCreateAPIView):
 
 
 class ProductDetail(RetrieveUpdateDestroyAPIView):
-    # permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
 
