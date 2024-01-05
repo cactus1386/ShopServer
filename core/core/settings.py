@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'shop',
     'account',
     'comment',
+    'django_filters',
 ]
 
 MIDDLEWARE = [

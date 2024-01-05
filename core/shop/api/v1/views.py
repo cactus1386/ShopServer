@@ -14,19 +14,23 @@ from rest_framework.generics import (
     RetrieveUpdateDestroyAPIView,
 )
 from .permissions import IsOwnerOrReadOnly
+from rest_framework.filters import SearchFilter
+from django_filters.rest_framework import DjangoFilterBackend
+
 
 class ProductList(ListCreateAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_fields = ["category", "size", "material"]
+    search_fields = ['name', 'description']
 
 
 class ProductDetail(RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
-
-
 
 
 # class ProductDetail(APIView):
