@@ -14,17 +14,20 @@ from rest_framework.generics import (
     RetrieveUpdateDestroyAPIView,
 )
 from .permissions import IsOwnerOrReadOnly
-from rest_framework.filters import SearchFilter
+from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
+from .pagination import SetPagination
 
 
 class ProductList(ListCreateAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = ProductSerializer
     queryset = Product.objects.all()
-    filter_backends = [DjangoFilterBackend, SearchFilter]
-    filterset_fields = ["category", "size", "material"]
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ["category", "size", "price"]
     search_fields = ['name', 'description']
+    ordering_fields = ['created_time']
+    pagination_class = SetPagination
 
 
 class ProductDetail(RetrieveUpdateDestroyAPIView):

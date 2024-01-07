@@ -37,6 +37,7 @@ class Product(models.Model):
     description = models.TextField()
     category = models.ManyToManyField(Category)
     size = models.ManyToManyField(Size)
+    created_time = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
