@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'account',
     'comment',
     'django_filters',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
