@@ -1,7 +1,8 @@
-from django.urls import path
-from . import views
+from django.urls import path, include
+
+app_name = 'account'
 
 urlpatterns = [
-    # path('home/', views.HomeView.as_view(), name='HomeTestPage'),
-    path('logout/', views.LogoutView.as_view(), name='LogoutTestPage'),
+    path('', include('django.contrib.auth.urls')),
+    path('api/v1/', include('account.api.v1.urls'), name='account')
 ]
