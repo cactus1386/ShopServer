@@ -37,8 +37,8 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path('account/', include('account.urls')),
     path("admin/", admin.site.urls),
+    path('account/', include('account.urls')),
     path("summernote/", include("django_summernote.urls")),
     path("api/", include('shop.urls')),
     path('', include('comment.urls')),
