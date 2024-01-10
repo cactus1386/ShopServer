@@ -1,5 +1,5 @@
 from rest_framework import generics
-from serializers import RegistrationSerializer
+from .serializers import RegistrationSerializer
 from rest_framework.response import Response
 from rest_framework import status
 

@@ -5,7 +5,7 @@ app_name = 'api-v1'
 
 urlpatterns = [
     # registration
-    path('registration/', views.RegistrationApiView.as_view(), 'registration'),
+    path('registration/', views.RegistrationApiView.as_view(), name='registration'),
     # login token
     # login jwt
     # check password
