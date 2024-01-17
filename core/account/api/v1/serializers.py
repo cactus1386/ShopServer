@@ -61,3 +61,6 @@ class CustomAuthTokenSerializer(serializers.Serializer):
 
         attrs["user"] = user
         return attrs
+
+class ChangePasswordSerializer(serializers.ModelSerializer):
+    pass
