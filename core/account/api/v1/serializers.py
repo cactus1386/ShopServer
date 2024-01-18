@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ...models import User
+from ...models import Profile, User
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
@@ -62,5 +62,25 @@ class CustomAuthTokenSerializer(serializers.Serializer):
         attrs["user"] = user
         return attrs
 
-class ChangePasswordSerializer(serializers.ModelSerializer):
-    pass
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+    new_password1 = serializers.CharField(required=True)
+
+    def validate(self, attrs):
+        if attrs.get("new_password") != attrs.get("new_password1"):
+            raise serializers.ValidationError({"detail": "Passwords do not match"})
+
+        try:
+            validate_password(attrs.get("new_password"))
+        except serializers.ValidationError as e:
+            raise serializers.ValidationError({"new_password": list(e.massages)})
+
+        return super().validate(attrs)
+
+class ProfileSerializer(serializers.ModelSerializer):
+    email = serializers.CharField(source='user.email', read_only=True)
+
+    class Meta:
+        model = Profile
+        fields = ('id', 'email', 'first_name', 'last_name', 'image', 'description')

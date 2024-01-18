@@ -24,5 +24,8 @@ urlpatterns = [
     path("jwt/verify/", TokenVerifyView.as_view(), name="JWT-token-verify"),
 
     # change password
-    path('password-change/', views.ChangePasswordApiView.as_view(), name='change-password')
+    path('password-change/', views.ChangePasswordApiView.as_view(), name='change-password'),
+
+    # Profile
+    path('profile/', views.ProfileApiView.as_view(), name='profile'),
 ]
