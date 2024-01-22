@@ -6,12 +6,12 @@ from django.contrib.auth.admin import UserAdmin
 # Register your models here.
 class CustomAdmin(UserAdmin):
     model = User
-    list_display = ("email", "is_staff", "is_active")
-    list_filter = ("email", "is_staff", "is_active")
+    list_display = ("email", "is_staff", "is_active", 'is_verified')
+    list_filter = ("email", "is_staff", "is_active", 'is_verified')
     searching_fields = ("email",)
     ordering = ("email",)
     fieldsets = (
-        (None, {"fields": ("email", "password")}),
+        ('Authentication', {"fields": ("email", "password")}),
         ("Permissions", {"fields": ("is_staff", "is_active", "is_superuser", 'is_verified')}),
         ("group permissions", {"fields": ("groups", "user_permissions")}),
         ("login date", {"fields": ("last_login",)}),

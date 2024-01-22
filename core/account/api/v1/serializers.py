@@ -55,6 +55,10 @@ class CustomAuthTokenSerializer(serializers.Serializer):
             if not user:
                 msg = _("Unable to log in with provided credentials.")
                 raise serializers.ValidationError(msg, code="authorization")
+            
+            if not user.is_verified:
+                raise serializers.ValidationError({'detail': 'User not verified'})
+
         else:
             msg = _('Must include "username" and "password".')
             raise serializers.ValidationError(msg, code="authorization")
@@ -68,6 +72,8 @@ class ChangePasswordSerializer(serializers.Serializer):
     new_password1 = serializers.CharField(required=True)
 
     def validate(self, attrs):
+        if not self.user.is_verified:
+            raise serializers.ValidationError({'detail': 'User not verified'})
         if attrs.get("new_password") != attrs.get("new_password1"):
             raise serializers.ValidationError({"detail": "Passwords do not match"})
 
