@@ -19,7 +19,7 @@ urlpatterns = [
     path("token/logout/", views.CustomDiscardAuthToken.as_view(), name="token-logout"),
 
     # login jwt
-    path("jwt/create/", TokenObtainPairView.as_view(), name="JWT-token-create"),
+    path("jwt/create/", views.CustomTokenObtainPairView.as_view(), name="JWT-token-create"),
     path("jwt/refresh/", TokenRefreshView.as_view(), name="JWT-token-refresh"),
     path("jwt/verify/", TokenVerifyView.as_view(), name="JWT-token-verify"),
 

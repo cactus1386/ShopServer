@@ -3,6 +3,7 @@ from ...models import Profile, User
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -55,9 +56,9 @@ class CustomAuthTokenSerializer(serializers.Serializer):
             if not user:
                 msg = _("Unable to log in with provided credentials.")
                 raise serializers.ValidationError(msg, code="authorization")
-            
+
             if not user.is_verified:
-                raise serializers.ValidationError({'detail': 'User not verified'})
+                raise serializers.ValidationError({"detail": "User not verified"})
 
         else:
             msg = _('Must include "username" and "password".')
@@ -66,6 +67,7 @@ class CustomAuthTokenSerializer(serializers.Serializer):
         attrs["user"] = user
         return attrs
 
+
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
@@ -73,7 +75,7 @@ class ChangePasswordSerializer(serializers.Serializer):
 
     def validate(self, attrs):
         if not self.user.is_verified:
-            raise serializers.ValidationError({'detail': 'User not verified'})
+            raise serializers.ValidationError({"detail": "User not verified"})
         if attrs.get("new_password") != attrs.get("new_password1"):
             raise serializers.ValidationError({"detail": "Passwords do not match"})
 
@@ -84,9 +86,20 @@ class ChangePasswordSerializer(serializers.Serializer):
 
         return super().validate(attrs)
 
+
 class ProfileSerializer(serializers.ModelSerializer):
-    email = serializers.CharField(source='user.email', read_only=True)
+    email = serializers.CharField(source="user.email", read_only=True)
 
     class Meta:
         model = Profile
-        fields = ('id', 'email', 'first_name', 'last_name', 'image', 'description')
+        fields = ("id", "email", "first_name", "last_name", "image", "description")
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        validated_data = super().validate(attrs)
+        if not self.user.is_verified:
+            raise serializers.ValidationError({"detail": "User not verified"})
+        validated_data["email"] = self.user.email
+        validated_data["user-id"] = self.user.id
+        return validated_data

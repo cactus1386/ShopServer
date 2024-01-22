@@ -1,11 +1,6 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
-from .serializers import (
-    ProfileSerializer,
-    RegistrationSerializer,
-    CustomAuthTokenSerializer,
-    ChangePasswordSerializer,
-)
+from .serializers import *
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
@@ -13,6 +8,7 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from account.models import Profile, User
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 
 class RegistrationApiView(generics.GenericAPIView):
@@ -92,3 +88,7 @@ class ProfileApiView(generics.RetrieveUpdateAPIView):
         queryset = self.get_queryset()
         obj = get_object_or_404(queryset, user=self.request.user)
         return obj
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
