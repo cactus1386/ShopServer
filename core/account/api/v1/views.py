@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from account.models import Profile, User
 from rest_framework_simplejwt.views import TokenObtainPairView
-
+from django.core.mail import send_mail
 
 class RegistrationApiView(generics.GenericAPIView):
     serializer_class = RegistrationSerializer
@@ -92,3 +92,14 @@ class ProfileApiView(generics.RetrieveUpdateAPIView):
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+
+class TestEmail(generics.GenericAPIView):
+    def get(self, request, *args, **kwargs):
+        send_mail(
+            'Subject',
+            'our massage',
+            'elementrywro1@gmail.com',
+            ['cactusinjast@gmail.com'],
+            fail_silently=False
+        )
+        return Response('email send')
