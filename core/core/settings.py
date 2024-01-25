@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'comment',
     'django_filters',
     'drf_yasg',
+    'mail_templated'
 ]
 
 MIDDLEWARE = [
