@@ -52,5 +52,3 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def get_category(self, instance):
         return instance.category.values_list("category", flat=True)
-        
-

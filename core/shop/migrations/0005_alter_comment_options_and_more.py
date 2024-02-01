@@ -6,17 +6,17 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop', '0004_remove_comment_name_remove_comment_product'),
+        ("shop", "0004_remove_comment_name_remove_comment_product"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='comment',
+            name="comment",
             options={},
         ),
         migrations.RenameField(
-            model_name='comment',
-            old_name='created_on',
-            new_name='created_at',
+            model_name="comment",
+            old_name="created_on",
+            new_name="created_at",
         ),
     ]

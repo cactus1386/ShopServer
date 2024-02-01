@@ -13,4 +13,4 @@ class ProductAdmin(SummernoteModelAdmin):
     list_display = ("name", "price", "count", "brand")
     list_filter = ("brand",)
     search_fields = ("name", "description", "brand", "material")
-    summernote_fields = '__all__'
+    summernote_fields = "__all__"

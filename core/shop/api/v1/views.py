@@ -25,8 +25,8 @@ class ProductList(ListCreateAPIView):
     queryset = Product.objects.all()
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ["category", "size", "price"]
-    search_fields = ['name', 'description']
-    ordering_fields = ['created_time']
+    search_fields = ["name", "description"]
+    ordering_fields = ["created_time"]
     pagination_class = SetPagination
 
 
