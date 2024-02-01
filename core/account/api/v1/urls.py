@@ -29,7 +29,7 @@ urlpatterns = [
     # Profile
     path('profile/', views.ProfileApiView.as_view(), name='profile'),
 
-    path('test-email/', views.TestEmail.as_view(), name='test-email')
+    # path('test-email/', views.TestEmail.as_view(), name='test-email')
     # Activation
     # Resend activation
 ]
