@@ -102,7 +102,10 @@ class Migration(migrations.Migration):
                 ("name", models.CharField(max_length=255)),
                 ("price", models.IntegerField()),
                 ("discount", models.IntegerField()),
-                ("pic", models.CharField(blank=True, max_length=255, null=True)),
+                (
+                    "pic",
+                    models.CharField(blank=True, max_length=255, null=True),
+                ),
                 ("count", models.IntegerField(default=10)),
                 ("material", models.CharField(max_length=255)),
                 ("brand", models.CharField(max_length=255)),
@@ -125,7 +128,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "image",
-                    models.CharField(blank=True, default="", max_length=255, null=True),
+                    models.CharField(
+                        blank=True, default="", max_length=255, null=True
+                    ),
                 ),
                 (
                     "product",
@@ -151,7 +156,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "color",
-                    models.CharField(blank=True, default="", max_length=255, null=True),
+                    models.CharField(
+                        blank=True, default="", max_length=255, null=True
+                    ),
                 ),
                 (
                     "product",

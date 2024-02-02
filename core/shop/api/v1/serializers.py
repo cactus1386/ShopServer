@@ -26,7 +26,9 @@ class ProductSerializer(serializers.ModelSerializer):
     colors = ColorSerializer(many=True, read_only=True, source="colors_set")
     size = serializers.SerializerMethodField()
     category = serializers.SerializerMethodField()
-    relative_url = serializers.URLField(source="get_absolute_api_url", read_only=True)
+    relative_url = serializers.URLField(
+        source="get_absolute_api_url", read_only=True
+    )
 
     class Meta:
         model = Product

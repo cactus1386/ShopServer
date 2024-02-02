@@ -15,7 +15,9 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         if attrs.get("password") != attrs.get("password1"):
-            raise serializers.ValidationError({"detail": "Passwords do not match"})
+            raise serializers.ValidationError(
+                {"detail": "Passwords do not match"}
+            )
 
         try:
             validate_password(attrs.get("password"))
@@ -58,7 +60,9 @@ class CustomAuthTokenSerializer(serializers.Serializer):
                 raise serializers.ValidationError(msg, code="authorization")
 
             if not user.is_verified:
-                raise serializers.ValidationError({"detail": "User not verified"})
+                raise serializers.ValidationError(
+                    {"detail": "User not verified"}
+                )
 
         else:
             msg = _('Must include "username" and "password".')
@@ -77,12 +81,16 @@ class ChangePasswordSerializer(serializers.Serializer):
         if not self.user.is_verified:
             raise serializers.ValidationError({"detail": "User not verified"})
         if attrs.get("new_password") != attrs.get("new_password1"):
-            raise serializers.ValidationError({"detail": "Passwords do not match"})
+            raise serializers.ValidationError(
+                {"detail": "Passwords do not match"}
+            )
 
         try:
             validate_password(attrs.get("new_password"))
         except serializers.ValidationError as e:
-            raise serializers.ValidationError({"new_password": list(e.massages)})
+            raise serializers.ValidationError(
+                {"new_password": list(e.massages)}
+            )
 
         return super().validate(attrs)
 
@@ -92,7 +100,14 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ("id", "email", "first_name", "last_name", "image", "description")
+        fields = (
+            "id",
+            "email",
+            "first_name",
+            "last_name",
+            "image",
+            "description",
+        )
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):

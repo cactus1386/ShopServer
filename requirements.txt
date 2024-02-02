@@ -11,3 +11,4 @@ drf-yasg==1.21.7
 Pillow
 black
 djoser
+flake8

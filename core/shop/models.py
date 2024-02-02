@@ -50,7 +50,9 @@ class Images(models.Model):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="images_set"
     )
-    image = models.CharField(max_length=255, blank=True, null=True, default="")
+    image = models.CharField(
+        max_length=255, blank=True, null=True, default=""
+    )
 
     def __str__(self):
         return self.image
@@ -60,7 +62,9 @@ class Color(models.Model):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="colors_set"
     )
-    color = models.CharField(max_length=255, blank=True, null=True, default="")
+    color = models.CharField(
+        max_length=255, blank=True, null=True, default=""
+    )
 
     def __str__(self):
         return self.color
