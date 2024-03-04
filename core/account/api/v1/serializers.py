@@ -107,6 +107,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             "last_name",
             "image",
             "description",
+            "address",
         )
 
 
