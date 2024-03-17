@@ -85,8 +85,9 @@ class ChangePasswordApiView(generics.GenericAPIView):
 
 
 class ProfileApiView(generics.RetrieveUpdateAPIView):
-    serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_object(self):
         queryset = self.get_queryset()
@@ -96,9 +97,3 @@ class ProfileApiView(generics.RetrieveUpdateAPIView):
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
-
-
-class TestEmail(generics.GenericAPIView):
-    def get(self, request, *args, **kwargs):
-
-        return Response("email send")
