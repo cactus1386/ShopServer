@@ -21,6 +21,8 @@ from django.conf.urls.static import static
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from rest_framework.routers import DefaultRouter
+from cart.views import CartViewSet
 
 
 schema_view = get_schema_view(
@@ -35,6 +37,9 @@ schema_view = get_schema_view(
     public=True,
     permission_classes=[permissions.AllowAny],
 )
+
+router = DefaultRouter()
+router.register(r'cart', CartViewSet, basename='cart')
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -58,4 +63,6 @@ urlpatterns = [
         schema_view.with_ui("redoc", cache_timeout=0),
         name="schema-redoc",
     ),
+    path('', include(router.urls)),
+
 ]
