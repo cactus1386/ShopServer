@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     "drf_yasg",
     "mail_templated",
     "djoser",
-    'cart'
+    'cart',
+    'slider',
 ]
 
 MIDDLEWARE = [

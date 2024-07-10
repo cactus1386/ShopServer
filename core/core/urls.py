@@ -47,6 +47,7 @@ urlpatterns = [
     path("summernote/", include("django_summernote.urls")),
     path("", include("shop.urls")),
     path("comments/", include("comment.urls")),
+    path('sliders/', include("slider.urls")),
     path("api-auth/", include("rest_framework.urls")),
     path(
         "swagger<format>/",
