@@ -30,7 +30,7 @@ class Product(models.Model):
     name = models.CharField(max_length=255)
     price = models.IntegerField()
     discount = models.IntegerField()
-    pic = models.CharField(max_length=255, null=True, blank=True)
+    pic = models.ImageField(upload_to='uploads/')
     count = models.IntegerField(default=10)
     material = models.CharField(max_length=255)
     brand = models.CharField(max_length=255)
@@ -50,9 +50,7 @@ class Images(models.Model):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="images_set"
     )
-    image = models.CharField(
-        max_length=255, blank=True, null=True, default=""
-    )
+    image = models.ImageField(upload_to='uploads/')
 
     def __str__(self):
         return self.image
