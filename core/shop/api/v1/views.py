@@ -27,7 +27,6 @@ class ProductList(ListCreateAPIView):
     filterset_fields = ["category", "size", "price"]
     search_fields = ["name", "description"]
     ordering_fields = ["created_time"]
-    pagination_class = SetPagination
 
 
 class ProductDetail(RetrieveUpdateDestroyAPIView):
