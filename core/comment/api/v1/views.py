@@ -1,17 +1,23 @@
-from django.shortcuts import render
 from ...models import Comment
-from rest_framework import status, generics, permissions
 from .serializers import CommentSerializer
+from rest_framework import generics
+from rest_framework.response import Response
 
 
-# Create your views here.
 class CommentsView(generics.ListCreateAPIView):
-    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    serializer_class = CommentSerializer
-    pst = request.GET['post']
-    queryset = Comment.objects.filter(post=pst)
-
-
-class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = CommentSerializer
     queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+        pst = self.request.GET.get('pst')
+        if pst:
+            qs = qs.filter(post=pst)
+
+        return qs
+
+    def perform_create(self, serializer):
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+
+        return Response({'invalid': 'bad request'})
