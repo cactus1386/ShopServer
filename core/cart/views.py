@@ -7,15 +7,20 @@ from shop.models import Product
 
 
 class CartViewSet(viewsets.ViewSet):
-
     def list(self, request):
-        cart, created = Cart.objects.get_or_create(user=request.user)
+        # Default to current user if no user_id is provided
+        user_id = request.GET.get('user_id', request.user.id)
+        try:
+            cart = Cart.objects.get(user_id=user_id)
+        except Cart.DoesNotExist:
+            return Response({'error': 'Cart not found'}, status=status.HTTP_404_NOT_FOUND)
         serializer = CartSerializer(cart)
         return Response(serializer.data)
 
     @action(detail=False, methods=['post'])
     def add_item(self, request):
-        cart, created = Cart.objects.get_or_create(user=request.user)
+        user_id = request.data.get('user_id', request.user.id)
+        cart, created = Cart.objects.get_or_create(user_id=user_id)
         product_id = request.data.get('product_id')
         quantity = request.data.get('quantity', 1)
 
@@ -38,7 +43,12 @@ class CartViewSet(viewsets.ViewSet):
 
     @action(detail=False, methods=['post'])
     def remove_item(self, request):
-        cart = Cart.objects.get(user=request.user)
+        user_id = request.data.get('user_id', request.user.id)
+        try:
+            cart = Cart.objects.get(user_id=user_id)
+        except Cart.DoesNotExist:
+            return Response({'error': 'Cart not found'}, status=status.HTTP_404_NOT_FOUND)
+
         product_id = request.data.get('product_id')
 
         try:
@@ -46,7 +56,11 @@ class CartViewSet(viewsets.ViewSet):
         except Product.DoesNotExist:
             return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        cart_item = CartItem.objects.get(cart=cart, product=product)
+        try:
+            cart_item = CartItem.objects.get(cart=cart, product=product)
+        except CartItem.DoesNotExist:
+            return Response({'error': 'Cart item not found'}, status=status.HTTP_404_NOT_FOUND)
+
         cart_item.delete()
 
         serializer = CartSerializer(cart)
