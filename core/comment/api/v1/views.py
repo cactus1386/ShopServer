@@ -8,7 +8,8 @@ from .serializers import CommentSerializer
 class CommentsView(generics.ListCreateAPIView):
     # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     serializer_class = CommentSerializer
-    queryset = Comment.objects.all()
+    pst = request.GET['post']
+    queryset = Comment.objects.filter(post=pst)
 
 
 class CommentDetailView(generics.RetrieveUpdateDestroyAPIView):
