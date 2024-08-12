@@ -39,6 +39,18 @@ class Product(models.Model):
     size = models.ManyToManyField(Size)
     created_time = models.DateTimeField(auto_now=True)
 
+    def save(self, *args, **kwargs):
+        if self.pk:
+            old_product = Product.objects.get(pk=self.pk)
+            if old_product.price != self.price:
+                PriceHistory.objects.create(
+                    product=self,
+                    old_price=old_product.price,
+                    new_price=self.price,
+                    date=timezone.now()
+                )
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.name
 
@@ -66,3 +78,11 @@ class Color(models.Model):
 
     def __str__(self):
         return self.color
+
+
+class PriceHistory(models.Model):
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name='price_histories')
+    old_price = models.IntegerField()
+    new_price = models.IntegerField()
+    date = models.DateTimeField()
