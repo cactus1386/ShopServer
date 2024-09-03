@@ -10,4 +10,5 @@ urlpatterns = [
         views.ProductDetail.as_view(),
         name="product-detail",
     ),
+    path('v1/prices/<int:pk>/', views.PriceHistory.as_view(), name="price-history")
 ]
