@@ -65,7 +65,7 @@ urlpatterns = [
         name="schema-redoc",
     ),
     path('', include(router.urls)),
-
+    path('navbar/', include('navbar.urls'))
 ]
 
 if settings.DEBUG:
