@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "djoser",
     'cart',
     'slider',
+    'navbar',
 ]
 
 MIDDLEWARE = [
