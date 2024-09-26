@@ -7,9 +7,9 @@ from .users import User
 class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, null=True, blank=True)
+    family = models.CharField(max_length=255, null=True, blank=True)
     image = models.ImageField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    address = models.TextField(blank=True, null=True)
     phone = models.IntegerField(null=True, blank=True)
 
     created_date = models.DateTimeField(auto_now_add=True)
@@ -23,3 +23,19 @@ class Profile(models.Model):
 def save_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
+
+
+class Address(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    address = models.TextField()
+    ostan = models.CharField(max_length=255)
+    shahr = models.CharField(max_length=255)
+    postcode = models.IntegerField()
+    phone = models.CharField(max_length=255)
+
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.profile
