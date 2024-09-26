@@ -29,9 +29,9 @@ class CartViewSet(viewsets.ViewSet):
         cart_item, created = CartItem.objects.get_or_create(
             cart=cart, product=product)
         if not created:
-            cart_item.quantity += quantity  # Increment quantity
+            cart_item.quantity += quantity
         else:
-            cart_item.quantity = quantity  # Set quantity for new item
+            cart_item.quantity = quantity
         cart_item.save()
 
         serializer = CartSerializer(cart)
@@ -45,6 +45,7 @@ class CartViewSet(viewsets.ViewSet):
             return Response({'error': 'Cart not found'}, status=status.HTTP_404_NOT_FOUND)
 
         product_id = request.data.get('product_id')
+        print(product_id)
 
         try:
             product = Product.objects.get(pk=product_id)
@@ -53,7 +54,12 @@ class CartViewSet(viewsets.ViewSet):
 
         try:
             cart_item = CartItem.objects.get(cart=cart, product=product)
-            cart_item.delete()
+            if cart_item.quantity >= 1:
+                cart_item.quantity -= 1
+                cart_item.save()
+
+            else:
+                cart_item.delete()
         except CartItem.DoesNotExist:
             return Response({'error': 'Cart item not found'}, status=status.HTTP_404_NOT_FOUND)
 
