@@ -7,7 +7,8 @@ from .users import User
 class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, null=True, blank=True)
-    family = models.CharField(max_length=255, null=True, blank=True)
+    family = models.CharField(
+        max_length=255, null=True, blank=True, default='')
     image = models.ImageField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     phone = models.IntegerField(null=True, blank=True)
@@ -31,11 +32,11 @@ class Address(models.Model):
     address = models.TextField()
     ostan = models.CharField(max_length=255)
     shahr = models.CharField(max_length=255)
-    postcode = models.IntegerField()
-    phone = models.CharField(max_length=255)
+    postcode = models.IntegerField(default=None)
+    phone = models.CharField(max_length=255, default=None)
 
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.profile
+        return self.name

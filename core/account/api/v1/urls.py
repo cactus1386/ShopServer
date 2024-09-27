@@ -46,6 +46,7 @@ urlpatterns = [
     ),
     # Profile
     path("profile/", views.ProfileApiView.as_view(), name="profile"),
+    path("address/", views.AddressApiView.as_view(), name="address"),
     # path('test-email/', views.TestEmail.as_view(), name='test-email')
     # Activation
     # Resend activation
