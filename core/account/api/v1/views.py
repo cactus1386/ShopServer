@@ -85,14 +85,11 @@ class ChangePasswordApiView(generics.GenericAPIView):
 
 
 class ProfileApiView(generics.ListCreateAPIView):
-    queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
 
-    def get_object(self):
-        queryset = self.get_queryset()
-        obj = get_object_or_404(queryset, user=self.request.user)
-        return obj
+    def get_queryset(self):
+        return Profile.objects.filter(user=self.request.user)
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
@@ -100,11 +97,9 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
 
 class AddressApiView(generics.ListCreateAPIView):
-    queryset = Address.objects.all()
     serializer_class = AddressSerializer
     permission_classes = [IsAuthenticated]
 
-    def get_object(self):
-        queryset = self.get_queryset()
-        obj = get_object_or_404(queryset, user=self.request.user)
-        return obj
+    def get_queryset(self):
+        profile = Profile.objects.get(user=self.request.user)
+        return Address.objects.filter(profile=profile)
