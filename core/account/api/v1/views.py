@@ -103,3 +103,12 @@ class AddressApiView(generics.ListCreateAPIView):
     def get_queryset(self):
         profile = Profile.objects.get(user=self.request.user)
         return Address.objects.filter(profile=profile)
+
+    def delete(self, request, *args, **kwargs):
+        profile = Profile.objects.get(user=request.user)
+        try:
+            address = Address.objects.get(profile=profile)
+            address.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Address.DoesNotExist:
+            return Response({"error": "Address not found."}, status=status.HTTP_404_NOT_FOUND)
