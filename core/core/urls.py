@@ -22,7 +22,7 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework.routers import DefaultRouter
-from cart.views import CartViewSet
+from cart.views import CartViewSet, OrderView, OrderItemView
 
 
 schema_view = get_schema_view(
@@ -40,6 +40,8 @@ schema_view = get_schema_view(
 
 router = DefaultRouter()
 router.register(r'cart', CartViewSet, basename='cart')
+router.register(r'orders', OrderView, basename='order')
+router.register(r'order-items', OrderItemView, basename='order-items')
 
 urlpatterns = [
     path("admin/", admin.site.urls),
