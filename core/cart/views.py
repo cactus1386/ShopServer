@@ -45,7 +45,6 @@ class CartViewSet(viewsets.ViewSet):
             return Response({'error': 'Cart not found'}, status=status.HTTP_404_NOT_FOUND)
 
         product_id = request.data.get('product_id')
-        print(product_id)
 
         try:
             product = Product.objects.get(pk=product_id)
@@ -54,12 +53,36 @@ class CartViewSet(viewsets.ViewSet):
 
         try:
             cart_item = CartItem.objects.get(cart=cart, product=product)
-            if cart_item.quantity >= 1:
+            if cart_item.quantity > 1:
                 cart_item.quantity -= 1
                 cart_item.save()
 
             else:
                 cart_item.delete()
+        except CartItem.DoesNotExist:
+            return Response({'error': 'Cart item not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = CartSerializer(cart)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['post'])
+    def remove_all(self, request):
+        try:
+            cart = Cart.objects.get(user=request.user)
+        except Cart.DoesNotExist:
+            return Response({'error': 'Cart not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        product_id = request.data.get('product_id')
+
+        try:
+            product = Product.objects.get(pk=product_id)
+        except Product.DoesNotExist:
+            return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        try:
+            cart_item = CartItem.objects.get(cart=cart, product=product)
+
+            cart_item.delete()
         except CartItem.DoesNotExist:
             return Response({'error': 'Cart item not found'}, status=status.HTTP_404_NOT_FOUND)
 
