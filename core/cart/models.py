@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 from shop.models import Product
+from account.models import Address
+from django.utils.functional import cached_property
 
 # Create your models here.
 
@@ -31,65 +33,57 @@ class CartItem(models.Model):
 
 
 class Order(models.Model):
-    STATUS_CHOICES = (
-        ('pending', 'Pending'),
-        ('processing', 'Processing'),
-        ('shipped', 'Shipped'),
-        ('delivered', 'Delivered'),
-        ('canceled', 'Canceled'),
-    )
+    PENDING = "P"
+    COMPLETED = "C"
+
+    STATUS_CHOICES = ((PENDING, _("pending")), (COMPLETED, _("completed")))
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
-    date_ordered = models.DateTimeField(auto_now_add=True)
     status = models.CharField(
         max_length=10, choices=STATUS_CHOICES, default='pending')
     complete = models.BooleanField(default=False)
-    shipping_address = models.CharField(max_length=255, null=True, blank=True)
+    shipping_address = models.ForeignKey(
+        Address, on_delete=models.SET_NULL, blank=True, null=True, related_name="shipping_orders")
+
     payment_status = models.BooleanField(default=False)
-    transaction_id = models.CharField(max_length=100, null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"Order {self.id} by {self.user.email}"
 
-    @property
-    def shipping(self):
-        shipping = False
-        orderitems = self.orderitem_set.all()
-        for i in orderitems:
-            if not i.product.digital:  # Assuming Product has a 'digital' field
-                shipping = True
-        return shipping
-
-    @property
-    def get_cart_total(self):
-        orderitems = self.orderitem_set.all()
-        total = sum([item.get_total for item in orderitems])
-        return total
-
-    @property
-    def get_cart_items(self):
-        orderitems = self.orderitem_set.all()
-        total = sum([item.quantity for item in orderitems])
-        return total
+    @cached_property
+    def total_cost(self):
+        return round(sum([order_item.cost for order_item in self.order_items.all()]), 2)
 
 
 class OrderItem(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
-    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
-    quantity = models.IntegerField(default=0, null=True, blank=True)
-    date_added = models.DateTimeField(auto_now_add=True)
+    order = models.ForeignKey(
+        Order, related_name="order_items", on_delete=models.CASCADE
+    )
+    product = models.ForeignKey(
+        Product, related_name="product_order", on_delete=models.CASCADE
+    )
+    quantity = models.IntegerField()
+    total = models.DecimalField(max_digits=10, decimal_places=2)
 
-    @property
-    def get_total(self):
-        total = self.product.price * self.quantity
-        return total
+    @staticmethod
+    def create_order_item(order, product, quantity, total):
+        order_item = OrderItem()
+        order_item.order = order
+        order_item.product = product
+        order_item.quantity = quantity
+        order_item.total = total
+        order_item.save()
+        return order_item
 
 
-class OrderHistory(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    status = models.CharField(max_length=10, choices=Order.STATUS_CHOICES)
-    updated_at = models.DateTimeField(auto_now=True)
+# class OrderHistory(models.Model):
+#     order = models.ForeignKey(Order, on_delete=models.CASCADE)
+#     status = models.CharField(max_length=10, choices=Order.STATUS_CHOICES)
+#     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return f"Order {self.order.id} - Status: {self.status}"
+#     def __str__(self):
+#         return f"Order {self.order.id} - Status: {self.status}"
