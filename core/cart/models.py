@@ -72,7 +72,7 @@ class OrderItemModel(models.Model):
 
     @staticmethod
     def create_order_item(order, product, quantity, total):
-        order_item = OrderItem()
+        order_item = OrderItemModel()
         order_item.order = order
         order_item.product = product
         order_item.quantity = quantity

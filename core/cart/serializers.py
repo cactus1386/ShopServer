@@ -26,18 +26,17 @@ class CartSerializer(serializers.ModelSerializer):
 class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItemModel
-        fields = ['id', 'product', 'quantity', 'get_total', 'date_added']
+        fields = ['id', 'product', 'quantity', 'total']
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    order_items = OrderItemSerializer(
-        many=True, read_only=True, source='orderitem_set')
+    # order_items = OrderItemSerializer(
+    #     many=True, read_only=True, source='orderitem_set')
 
     class Meta:
         model = OrderModel
-        fields = ['id', 'user', 'date_ordered', 'status', 'complete', 'shipping_address',
-                  'payment_status', 'transaction_id', 'get_cart_total',
-                  'get_cart_items', 'order_items']
+        fields = ['id', 'user', 'status', 'complete',
+                  'payment_status', 'shipping_address', 'created_at']
 
     def create(self, validated_data):
         order_items_data = validated_data.pop('orderitem_set')
