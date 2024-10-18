@@ -2,7 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
-from .models import Cart, CartItem, Order, OrderItem
+from .models import Cart, CartItem, OrderModel, OrderItemModel
 from .serializers import CartSerializer, CartItemSerializer, OrderSerializer, OrderItemSerializer
 from shop.models import Product
 
@@ -91,7 +91,7 @@ class CartViewSet(viewsets.ViewSet):
 
 
 class OrderView(viewsets.ModelViewSet):
-    queryset = Order.objects.all()
+    queryset = OrderModel.objects.all()
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
 
@@ -100,7 +100,7 @@ class OrderView(viewsets.ModelViewSet):
 
 
 class OrderItemView(viewsets.ModelViewSet):
-    queryset = OrderItem.objects.all()
+    queryset = OrderItemModel.objects.all()
     serializer_class = OrderItemSerializer
     permission_classes = [IsAuthenticated]
 

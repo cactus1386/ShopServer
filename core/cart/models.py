@@ -3,6 +3,7 @@ from django.conf import settings
 from shop.models import Product
 from account.models import Address
 from django.utils.functional import cached_property
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 
@@ -32,7 +33,7 @@ class CartItem(models.Model):
         return self.product.price * self.quantity
 
 
-class Order(models.Model):
+class OrderModel(models.Model):
     PENDING = "P"
     COMPLETED = "C"
 
@@ -59,9 +60,9 @@ class Order(models.Model):
         return round(sum([order_item.cost for order_item in self.order_items.all()]), 2)
 
 
-class OrderItem(models.Model):
+class OrderItemModel(models.Model):
     order = models.ForeignKey(
-        Order, related_name="order_items", on_delete=models.CASCADE
+        OrderModel, related_name="order_items", on_delete=models.CASCADE
     )
     product = models.ForeignKey(
         Product, related_name="product_order", on_delete=models.CASCADE
