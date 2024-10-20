@@ -84,7 +84,7 @@ class ChangePasswordApiView(generics.GenericAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ProfileApiView(generics.ListCreateAPIView):
+class ProfileApiView(generics.RetrieveUpdateAPIView):
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
 
