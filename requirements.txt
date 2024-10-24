@@ -12,3 +12,4 @@ Pillow
 black
 djoser
 flake8
+kavenegar

@@ -8,8 +8,8 @@ from django.utils.translation import gettext_lazy as _
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password, **extra_fields):
-        if not email:
+    def create_user(self, phone, password, **extra_fields):
+        if not phone:
             raise ValueError(_("the Email must be set"))
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
@@ -31,7 +31,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(max_length=255, unique=True)
+    phone = models.CharField(max_length=11)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
@@ -39,10 +39,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 
-    USERNAME_FIELD = "email"
+    USERNAME_FIELD = "phone"
     REQUIRED_FIELDS = []
 
     objects = UserManager()
 
     def __str__(self):
-        return self.email
+        return self.phone
