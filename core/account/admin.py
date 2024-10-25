@@ -6,12 +6,12 @@ from django.contrib.auth.admin import UserAdmin
 # Register your models here.
 class CustomAdmin(UserAdmin):
     model = User
-    list_display = ("email", "is_staff", "is_active", "is_verified")
-    list_filter = ("email", "is_staff", "is_active", "is_verified")
-    searching_fields = ("email",)
-    ordering = ("email",)
+    list_display = ("phone", "is_staff", "is_active", "is_verified")
+    list_filter = ("phone", "is_staff", "is_active", "is_verified")
+    searching_fields = ("phone",)
+    ordering = ("phone",)
     fieldsets = (
-        ("Authentication", {"fields": ("email", "password")}),
+        ("Authentication", {"fields": ("phone", "password")}),
         (
             "Permissions",
             {
@@ -32,7 +32,7 @@ class CustomAdmin(UserAdmin):
             {
                 "classes": ("wide",),
                 "fields": (
-                    "email",
+                    "phone",
                     "password1",
                     "password2",
                     "is_staff",

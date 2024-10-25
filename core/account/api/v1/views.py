@@ -20,7 +20,7 @@ class RegistrationApiView(generics.GenericAPIView):
         if serializer.is_valid():
             serializer.save()
             data = {
-                "email": serializer.validated_data["email"],
+                "phone": serializer.validated_data["phone"],
             }
             return Response(data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -40,7 +40,7 @@ class ObtainAuthTokenView(ObtainAuthToken):
             {
                 "token": token.key,
                 "user_id": user.pk,
-                "email": user.email,
+                "phone": user.phone,
             }
         )
 

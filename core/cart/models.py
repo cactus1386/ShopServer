@@ -14,7 +14,7 @@ class Cart(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.user.email
+        return self.user.phone
 
     def get_total_price(self):
         return sum(item.get_total_price() for item in self.items.all())
@@ -53,7 +53,7 @@ class OrderModel(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Order {self.id} by {self.user.email}"
+        return f"Order {self.id} by {self.user.phone}"
 
     @cached_property
     def total_cost(self):

@@ -165,12 +165,12 @@ SIMPLE_JWT = {
 }
 
 # email configuration settings
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_USE_TLS = True
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_HOST_USER = "khodebabakam@gmail.com"
-EMAIL_HOST_PASSWORD = "babak@1386"
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = "smtp.gmail.com"
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = "khodebabakam@gmail.com"
+# EMAIL_HOST_PASSWORD = "babak@1386"
 
 
 MEDIA_URL = '/media/'

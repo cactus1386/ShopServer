@@ -11,7 +11,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("email", "password", "password1")
+        fields = ("phone", "password", "password1")
 
     def validate(self, attrs):
         if attrs.get("password") != attrs.get("password1"):
@@ -32,7 +32,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
 
 class CustomAuthTokenSerializer(serializers.Serializer):
-    email = serializers.CharField(label=_("Email"), write_only=True)
+    phone = serializers.CharField(label=_("Phone"), write_only=True)
     password = serializers.CharField(
         label=_("Password"),
         style={"input_type": "password"},
@@ -42,7 +42,7 @@ class CustomAuthTokenSerializer(serializers.Serializer):
     token = serializers.CharField(label=_("Token"), read_only=True)
 
     def validate(self, attrs):
-        username = attrs.get("email")
+        username = attrs.get("phone")
         password = attrs.get("password")
 
         if username and password:
@@ -96,17 +96,16 @@ class ChangePasswordSerializer(serializers.Serializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    email = serializers.CharField(source="user.email", read_only=True)
+    phone = serializers.CharField(source="user.phone", read_only=True)
 
     class Meta:
         model = Profile
         fields = (
             "id",
-            "email",
+            "phone",
             'name',
             "image",
             "description",
-            'phone',
             'family'
         )
 
@@ -116,7 +115,7 @@ class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
         fields = ('profile', 'name', 'address', 'ostan',
-                  'shahr', 'postcode', 'phone', 'created_date')
+                  'shahr', 'postcode', 'phone_number', 'created_date')
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -124,6 +123,6 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         validated_data = super().validate(attrs)
         if not self.user.is_verified:
             raise serializers.ValidationError({"detail": "User not verified"})
-        validated_data["email"] = self.user.email
+        validated_data["phone"] = self.user.phone
         validated_data["user-id"] = self.user.id
         return validated_data
