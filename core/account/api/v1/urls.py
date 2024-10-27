@@ -48,7 +48,7 @@ urlpatterns = [
     path("profile/<int:pk>", views.ProfileApiView.as_view(), name="profile"),
     path("profile/", views.GetProfileApiView.as_view(), name="get-profile"),
 
-    path("address/", views.AddressApiView.as_view(), name="address"),
+    path("address/<int:pk>", views.AddressApiView.as_view(), name="address"),
 
     # path('test-email/', views.TestEmail.as_view(), name='test-email')
     # Activation
