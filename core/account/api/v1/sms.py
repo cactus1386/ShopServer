@@ -12,7 +12,7 @@ def send_sms():
         api = KavenegarAPI(api_key)
         params = {
             'sender': '2000500666',
-            'receptor': '09104845749',
+            'receptor': '09991377711',
             'message': 'Hello, this is a test message from your server.',
         }
         response = api.sms_send(params)
