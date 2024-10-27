@@ -114,7 +114,7 @@ class AddressSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Address
-        fields = ('profile', 'name', 'address', 'ostan',
+        fields = ('id', 'profile', 'name', 'address', 'ostan',
                   'shahr', 'postcode', 'phone_number', 'created_date')
 
 
